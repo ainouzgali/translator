@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TranslatorApp" ng-controller="SearchController">
+
+<head>
+    <title ng-bind="title"></title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/angucomplete-alt.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+    <noscript>
+        <div class="alert alert-danger text-center">Javascript is either disabled or not supported in your browser. Please enable it or use a Javascript enabled browser.</div>
+    </noscript>
+
+    <header>
+        <div class="container outerdiv">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div id="logo" class="text-center">
+                        <h1>{{::title}}</h1>
+                        <p>{{::tagline}}</p>
+                    </div>
+                    <form role="form" id="search-form" ng-submit="fetchTranslation()">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input ng-model="search" ng-model-options="{ debounce: 500 }" class="form-control" type="text" name="search" placeholder="Search..." autofocus/>
+                                <span class="input-group-btn"><button class="btn" type="submit"><i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search </button></span>
+                            </div>
+                        </div>
+                    </form>
+
+            
+                </div>
+            </div>
+            <div ng-if="error" class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger text-center">Something went wrong!</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="padded-row">
+          <div angucomplete-alt id="auto" placeholder="Search translation.." maxlength="50" pause="100" selected-object="search" local-data="searchResults" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight">
+          </div>
+        </div>
+        <div class="result">
+          <div ng-show="search">
+            You selected <span class="bold-span">{{searchResults.possibility}}</span> 
+          </div>
+          <textarea class="form-control" rows="3" id="showResult"  placeholder="here will be te translation" ng-model="transResult.translation"></textarea>
+          <a href="#" class="btn btn-default" role="button" ng-click="getTranslation()">Submit</a>
+      
+        </div>
+        <div class="result">
+
+
+
+ 
+
+    <div class="container-fluid outerdiv">
+        <div ng-if="!search" class="col-md-12">
+            <div class="alert alert-info text-center">Start typing to search IMDB at blazing speed!</div>
+        </div>
+        <div ng-if="searchResults.Response!=='False'" id="search-results" ng-include="'partials/search-results.html'"></div>
+        <div ng-if="searchResults.Response==='False'" id="search-results" class="col-md-12">
+            <div class="alert alert-info text-center">No movie found with name - '{{::search}}'.</div>
+        </div>
+    </div>
+    <footer>
+        <nav class="navbar navbar-inverse navbar-fixed-bottom">
+            <div class="container-fluid">
+                <div class="navbar-footer">
+                    <a class="navbar-brand" href="#"><b>{{::title}}</b> <span class="span-style">{{::tagline}}</span></a>
+                </div>
+            </div>
+        </nav>
+    </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min.js"></script>
+    <script src="js/angucomplete-alt.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
