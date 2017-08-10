@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 angular.module('TranslatorApp', ["angucomplete-alt"])
     .directive('whenScrolled', function() {
@@ -26,12 +26,28 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
         // Watch for change in search text input to hit the API.
         $scope.$watch('search', function() {
             if ($scope.search) {
+                //$window.alert($scope.search);
+                //$window.alert($scope.searchResults.possibility);
                 $scope.loadOptions();
-                $window.alert(JSON.stringify($scope.searchResults));
+               // $window.alert($scope.searchResults.possibility);
             } else {
                 $scope.searchResults = {};
             }
         });
+
+        
+        $scope.inputChanged = function(str) {
+            $scope.search = str;
+         }
+
+        $scope.countrySelected = function(selected) {
+           if (selected) {
+             $scope.search= selected.originalObject.possibility;
+             $scope.fetchTranslation();
+           } else {
+             $scope.search = null;
+        }
+      }
 
         $scope.getTranslation = function(){
         $http.get("/data/tmpTranslation.json")
@@ -69,21 +85,25 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
                     method: 'POST',
                     responseType: 'json',
                     data: JSON.stringify(data),
-                    headers:  {'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers:  {'Content-Type' : 'application/json; charset=UTF-8'},
                     })
                      .then(function(response) {
                         $scope.transResult = response.data;
-                }, function(error) {
+                        $window.alert("1");
+                        $window.alert(JSON.stringify($scope.transResult));
+                }, function(response) {
+                    $window.alert("2");
+                    $window.alert(response.data);
                     $scope.error = 1;
 
                 });
-        }
+        };
 
 
         $scope.loadOptions = function() {
             // @paginate is boolean to check if this is a pagination request.
             var data= {
-                sentence : $scope.search
+                "sentence" : $scope.search
             };
 
             $http({
@@ -91,17 +111,21 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
                     method: 'POST',
                     responseType: 'json',
                     data: JSON.stringify(data),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: {'Content-Type' : 'application/json; charset=UTF-8'},
                     
                     })
                      .then(function(response) {
                         $scope.searchResults = response.data.possibilities;
-                }, function(error) {
+                        //$window.alert(JSON.stringify($scope.searchResults));
+                       // $window.alert(JSON.stringify($scope.searchResults));
+                }, function(response) {
                     $scope.error = 1;
+                    $window.alert(response.statusText);
+                    $window.alert(response.data);
     
                 });
 
-         }
+         };
 
 
     });

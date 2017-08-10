@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app="TranslatorApp" ng-controller="SearchController">
 
 <head>
@@ -24,39 +24,40 @@
                         <h1>{{::title}}</h1>
                         <p>{{::tagline}}</p>
                     </div>
-                    <form role="form" id="search-form" ng-submit="fetchTranslation()">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input ng-model="search" ng-model-options="{ debounce: 500 }" class="form-control" type="text" name="search" placeholder="Search..." autofocus/>
-                                <span class="input-group-btn"><button class="btn" type="submit"><i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search </button></span>
-                            </div>
-                        </div>
-                    </form>
 
-            
+
+                    <div class="padded-row">
+                         <div angucomplete-alt id="ex10" placeholder="Search countries" pause="100" selected-object="search" local-data="searchResults" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight" input-changed="inputChanged">
+                          </div>
+                    </div>
+
+                   
+
+                     <div class="result">
+                        <button class="btn btn-default" role="button" ng-click="countrySelected(search)">Submit</button>
+                     </div>
+
+
+                  
+
+
+        <div class="container-fluid outerdiv">
+        <div ng-if="transResult" class="col-md-12">
+            <div class="alert alert-info text-center">{{transResult.translation}}</div>
+        </div>
+                
                 </div>
             </div>
             <div ng-if="error" class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-danger text-center">Something went wrong!</div>
+                    <div class="alert alert-danger text-center">{{transResult}}</div>
                 </div>
             </div>
         </div>
+        </div>
     </header>
 
-    <div class="padded-row">
-          <div angucomplete-alt id="auto" placeholder="Search translation.." maxlength="50" pause="100" selected-object="search" local-data="searchResults" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight">
-          </div>
-        </div>
-        <div class="result">
-          <div ng-show="search">
-            You selected <span class="bold-span">{{searchResults.possibility}}</span> 
-          </div>
-          <textarea class="form-control" rows="3" id="showResult"  placeholder="here will be te translation" ng-model="transResult.translation"></textarea>
-          <a href="#" class="btn btn-default" role="button" ng-click="getTranslation()">Submit</a>
-      
-        </div>
-        <div class="result">
+    
 
 
 
@@ -65,10 +66,6 @@
     <div class="container-fluid outerdiv">
         <div ng-if="!search" class="col-md-12">
             <div class="alert alert-info text-center">Start typing to search IMDB at blazing speed!</div>
-        </div>
-        <div ng-if="searchResults.Response!=='False'" id="search-results" ng-include="'partials/search-results.html'"></div>
-        <div ng-if="searchResults.Response==='False'" id="search-results" class="col-md-12">
-            <div class="alert alert-info text-center">No movie found with name - '{{::search}}'.</div>
         </div>
     </div>
     <footer>

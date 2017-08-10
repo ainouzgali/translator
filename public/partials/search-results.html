@@ -1,4 +1,4 @@
-<div class="partial" when-scrolled="loadMore()">
+﻿<div class="partial" when-scrolled="loadMore()">
     <div class="search-result col-md-3 col-sm-4 col-xs-12" ng-repeat="movie in searchResults.Search">
         <div class="well" ng-click="openImdbLink(movie.imdbID)">
             <select ng-options="option in searchResults.possibility" ng-model="search"></select>
