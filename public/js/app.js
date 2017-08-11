@@ -78,6 +78,8 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
             console.log("****2***");
            } else {
              $scope.search = {};
+             $window.alert("No Translation Yet");
+
              }
         }
 
