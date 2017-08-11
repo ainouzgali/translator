@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
-<html lang="en" ng-app="TranslatorApp" ng-controller="SearchController">
+<!DOCTYPE html>
+<html ng-app="TranslatorApp" ng-controller="SearchController">
 
 <head>
+    <meta charset="utf-8">
     <title ng-bind="title"></title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/angucomplete-alt.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
 </head>
 
 <body>
@@ -25,49 +25,43 @@
                         <p>{{::tagline}}</p>
                     </div>
 
+                    <div class="col-md-10 col-md-offset-0">
 
-                    <div class="padded-row">
-                         <div angucomplete-alt id="ex10" placeholder="Search countries" pause="100" selected-object="search" local-data="searchResults" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight" input-changed="inputChanged">
+
+                    
+                         <div angucomplete-alt id="ex10" placeholder="Search countries" pause="100" selected-object="slectedOpt" local-data="searchResults" local-search="localSearch1" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight" input-changed="inputChanged">
                           </div>
-                    </div>
+                          
 
                    
 
-                     <div class="result">
-                        <button class="btn btn-default" role="button" ng-click="countrySelected(search)">Submit</button>
-                     </div>
+                    </div>
 
 
-                  
+                    <div class="col-md-1 col-md-offset-0">
+                        <button class="btn btn-default btn-sm" role="button" ng-click="countrySelected(selecteOpt)"><i class="glyphicon glyphicon-search" aria-hidden="true"></i></button>
 
-
-        <div class="container-fluid outerdiv">
-        <div ng-if="transResult" class="col-md-12">
-            <div class="alert alert-info text-center">{{transResult.translation}}</div>
-        </div>
-                
+                        </div>
                 </div>
-            </div>
-            <div ng-if="error" class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-danger text-center">{{transResult}}</div>
                 </div>
+                <br>
+
+                <div class="row">
+                    <div ng-if="transResult" class="col-md-5 col-md-offset-3">
+                        <textarea class="form-control" rows="3" id="showResult"  placeholder="here will be the translation" ng-model="transResult.translation"></textarea>
+
+                        </div>
+          
+
+
+                </div>
+
+
             </div>
-        </div>
-        </div>
+        
     </header>
 
     
-
-
-
- 
-
-    <div class="container-fluid outerdiv">
-        <div ng-if="!search" class="col-md-12">
-            <div class="alert alert-info text-center">Start typing to search IMDB at blazing speed!</div>
-        </div>
-    </div>
     <footer>
         <nav class="navbar navbar-inverse navbar-fixed-bottom">
             <div class="container-fluid">

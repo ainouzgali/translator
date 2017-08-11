@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 angular.module('TranslatorApp', ["angucomplete-alt"])
     .directive('whenScrolled', function() {
@@ -26,28 +26,79 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
         // Watch for change in search text input to hit the API.
         $scope.$watch('search', function() {
             if ($scope.search) {
-                //$window.alert($scope.search);
+                console.log("watch pre:");
+                console.log($scope.search);
+                console.log($scope.searchResults);
                 //$window.alert($scope.searchResults.possibility);
                 $scope.loadOptions();
+                console.log("watch after:");
+                console.log($scope.search);
+                console.log($scope.searchResults);
                // $window.alert($scope.searchResults.possibility);
             } else {
+                console.log("2:");
+                console.log($scope.search);
+                console.log($scope.searchResults);
                 $scope.searchResults = {};
+                $scope.transResult = {};
             }
         });
 
+        $scope.slectedOpt= function(selectedObject){
+            if(selectedObject){
+                console.log("***1***");
+                console.log($scope.search);
+                $scope.search=selectedObject.originalObject.possibility;
+                $scope.fetchTranslation();
+                console.log($scope.search);
+                console.log("****1***");
+            } else{
+                $scope.search = {};
+            }
+            
+        }
+
         
         $scope.inputChanged = function(str) {
+            console.log("input change pre:");
+            console.log(str);
+            console.log($scope.searchResults);
             $scope.search = str;
+            console.log("input change after:");
+            console.log($scope.searchResults);
          }
 
         $scope.countrySelected = function(selected) {
            if (selected) {
+            console.log("***2***");
+            console.log($scope.search);
              $scope.search= selected.originalObject.possibility;
              $scope.fetchTranslation();
+             console.log($scope.search);
+            console.log("****2***");
            } else {
-             $scope.search = null;
+             $scope.search = {};
+             }
         }
-      }
+
+        $scope.localSearch = function(str,searchResults) {
+            console.log("********");
+            var matches=[];
+            searchResults.forEach(function(possibility) {
+                console.log(possibility);
+                matches.push(possibility.possibility);
+            });
+            console.log(matches);
+            console.log("********");
+            return matches;
+        };
+
+        $scope.localSearch1 = function(str,searchResults) {
+            return searchResults;
+        };
+
+
+
 
         $scope.getTranslation = function(){
         $http.get("/data/tmpTranslation.json")
@@ -85,12 +136,15 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
                     method: 'POST',
                     responseType: 'json',
                     data: JSON.stringify(data),
-                    headers:  {'Content-Type' : 'application/json; charset=UTF-8'},
+                    headers:  {'Content-Type' : 'application/json; charset=Winows-1255'
+                            },
                     })
                      .then(function(response) {
                         $scope.transResult = response.data;
-                        $window.alert("1");
-                        $window.alert(JSON.stringify($scope.transResult));
+                        console.log("fetchyrans pre:");
+                        console.log($scope.search);
+                        console.log($scope.searchResults);
+                        console.log(JSON.stringify($scope.transResult));
                 }, function(response) {
                     $window.alert("2");
                     $window.alert(response.data);
@@ -106,22 +160,31 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
                 "sentence" : $scope.search
             };
 
+            //$window.alert(JSON.stringify(data));
+
             $http({
                     url: 'http://localhost:4000/GetAutoComplete',
                     method: 'POST',
                     responseType: 'json',
                     data: JSON.stringify(data),
-                    headers: {'Content-Type' : 'application/json; charset=UTF-8'},
+                    headers: {'Content-Type' : 'application/json; charset=Winows-1255'
+                            },
                     
                     })
                      .then(function(response) {
+                        console.log("loadOptions pre:");
+                        console.log($scope.search);
+                        console.log($scope.searchResults);
+                        $scope.searchResults = response.data.possibilities;
+                        console.log("loadOptions after:");
+                        console.log($scope.search);
+                        console.log($scope.searchResults);
                         $scope.searchResults = response.data.possibilities;
                         //$window.alert(JSON.stringify($scope.searchResults));
                        // $window.alert(JSON.stringify($scope.searchResults));
                 }, function(response) {
                     $scope.error = 1;
-                    $window.alert(response.statusText);
-                    $window.alert(response.data);
+                    console.log(JSON.stringify(response.data));
     
                 });
 
