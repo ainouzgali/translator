@@ -26,7 +26,7 @@
                     </div>
 
                   
-                         <div angucomplete-alt id="ex10" placeholder="Search countries" pause="100" selected-object="slectedOpt" local-data="searchResults" local-search="localSearch1" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight" input-changed="inputChanged">
+                         <div angucomplete-alt id="ex10" style="display: inline-block;width: 93%;padding-bottom: 10px;" placeholder="Translate" pause="100" selected-object="slectedOpt" local-data="searchResults" local-search="localSearch1" search-fields="possibility" title-field="possibility" minlength="1" input-class="form-control form-control-small" match-class="highlight" input-changed="inputChanged">
                          </div>
                     
 
@@ -34,7 +34,7 @@
                         <button class="btn btn-default btn-sm" role="button" ng-click="countrySelected(selecteOpt)"><i class="glyphicon glyphicon-search" aria-hidden="true"></i></button>
                    
                 <div ng-if="transResult" >
-                    <textarea class="form-control" rows="4" cols="5" id="showResult"  placeholder="here will be the translation" ng-model="transResult.translation"></textarea>
+                    <textarea class="form-control" rows="4" cols="5" id="showResult"  placeholder="Translation" ng-model="transResult.translation"></textarea>
                 </div>
                 </div>
             </div>

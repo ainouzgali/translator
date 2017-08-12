@@ -132,15 +132,16 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
             var data= {
                 "original" : $scope.search
             };
+            var req = {
+                method: 'POST',
+                url: 'http://localhost:4000/Translate',
+                headers: {
+                'Content-Type': undefined
+                },
+                data: data
+            }
 
-            $http({
-                    url: 'http://localhost:4000/Translate',
-                    method: 'POST',
-                    responseType: 'json',
-                    data: JSON.stringify(data),
-                    headers:  {'Content-Type' : 'application/json; charset=Winows-1255'
-                            },
-                    })
+            $http(req)
                      .then(function(response) {
                         $scope.transResult = response.data;
                         console.log("fetchyrans pre:");
@@ -158,21 +159,22 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
 
         $scope.loadOptions = function() {
             // @paginate is boolean to check if this is a pagination request.
+            console.log("enter load options");
             var data= {
                 "sentence" : $scope.search
             };
+            var req = {
+                method: 'POST',
+                url: 'http://localhost:4000/GetAutoComplete',
+                headers: {
+                'Content-Type': undefined
+                },
+                data: data
+            }
 
-            //$window.alert(JSON.stringify(data));
+            console.log(JSON.stringify(data));
 
-            $http({
-                    url: 'http://localhost:4000/GetAutoComplete',
-                    method: 'POST',
-                    responseType: 'json',
-                    data: JSON.stringify(data),
-                    headers: {'Content-Type' : 'application/json; charset=Winows-1255'
-                            },
-                    
-                    })
+            $http(req)
                      .then(function(response) {
                         console.log("loadOptions pre:");
                         console.log($scope.search);
@@ -186,8 +188,7 @@ angular.module('TranslatorApp', ["angucomplete-alt"])
                        // $window.alert(JSON.stringify($scope.searchResults));
                 }, function(response) {
                     $scope.error = 1;
-                    console.log(JSON.stringify(response.data));
-    
+                    //console.log(JSON.stringify(response.data));
                 });
 
          };
